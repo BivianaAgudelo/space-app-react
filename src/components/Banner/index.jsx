@@ -12,6 +12,7 @@ const FigureEstilizada = styled.figure`
   max-width: 100%;
   background-size: cover;
 `;
+
 const TituloEstilizado = styled.h1`
   font-weight: 400;
   font-size: 40px;
