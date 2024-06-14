@@ -8,6 +8,7 @@ import Galeria from "./components/Galeria";
 import fotos from "./fotos.json";
 import { useState } from "react";
 import ModalZoom from "./components/ModalZoom";
+import Pie from "./components/Pie";
 
 const FondoGradiente = styled.div`
   background: linear-gradient(
@@ -19,18 +20,15 @@ const FondoGradiente = styled.div`
   width: 100%;
   min-height: 100vh;
 `;
-
 const AppContainer = styled.div`
-  width: 1440px;
+  width: 1280px;
   max-width: 100%;
   margin: 0 auto;
 `;
-
 const MainContainer = styled.main`
   display: flex;
-  gap: 50px;
+  gap: 24px;
 `;
-
 const ContenidoGaleria = styled.section`
   display: flex;
   flex-direction: column;
@@ -39,26 +37,28 @@ const ContenidoGaleria = styled.section`
 
 const App = () => {
   const [fotosDeGaleria, setFotosDeGaleria] = useState(fotos);
-
-  const [fotoSeleccionada, setFotoSeleccionada] = useState(null)
+  const [fotoSeleccionada, setFotoSeleccionada] = useState(null);
 
   const alAlternarFavorito = (foto) => {
-
     if (foto.id === fotoSeleccionada?.id) {
       setFotoSeleccionada({
         ...fotoSeleccionada,
-        favorita: !fotoSeleccionada.favorita
-      })
-
+        favorita: !fotoSeleccionada.favorita,
+      });
     }
 
-    setFotosDeGaleria(fotosDeGaleria.map(fotoDeGaleria => {
-      return {
-        ...fotoDeGaleria,
-        favorita: fotoDeGaleria.id === foto.id ? !foto.favorita : fotoDeGaleria.favorita
-      }
-    }))
-  }
+    setFotosDeGaleria(
+      fotosDeGaleria.map((fotoDeGaleria) => {
+        return {
+          ...fotoDeGaleria,
+          favorita:
+            fotoDeGaleria.id === foto.id
+              ? !foto.favorita
+              : fotoDeGaleria.favorita,
+        };
+      })
+    );
+  };
 
   return (
     <>
@@ -73,7 +73,11 @@ const App = () => {
                 texto="La galería más completa de fotos del espacio"
                 backgroundImage={banner}
               />
-              <Galeria fotos={fotosDeGaleria} />
+              <Galeria
+                alSeleccionarFoto={(foto) => setFotoSeleccionada(foto)}
+                fotos={fotosDeGaleria}
+                alAlternarFavorito={alAlternarFavorito}
+              />
             </ContenidoGaleria>
           </MainContainer>
         </AppContainer>
@@ -82,6 +86,7 @@ const App = () => {
           alCerrar={() => setFotoSeleccionada(null)}
           alAlternarFavorito={alAlternarFavorito}
         />
+        <Pie />
       </FondoGradiente>
     </>
   );
